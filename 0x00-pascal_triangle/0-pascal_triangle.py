@@ -4,6 +4,7 @@ Module to create function to return list of integer list
 representing pascals triangle
 """
 
+
 def pascal_triangle(n):
     if n <= 0:
         return []
