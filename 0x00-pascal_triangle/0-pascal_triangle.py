@@ -6,16 +6,16 @@ representing pascals triangle
 
 
 def pascal_triangle(n):
+    """Funcion to return a list to represent the pascal trangle"""
     if n <= 0:
         return []
-
     tri = [[1]]
 
     for r in range(1, n):
         row = [1]
+        p_row = tri[r - 1]
         for g in range(1, r):
-            row.append(tri[r - 1][g - 1] + tri[r - 1][g])
-
+            row.append(p_row[g - 1] + p_row[g])
         row.append(1)
         tri.append(row)
 
