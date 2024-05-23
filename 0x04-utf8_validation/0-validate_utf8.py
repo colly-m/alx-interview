@@ -4,28 +4,25 @@
 
 def validUTF8(data):
     """Function to detemine if given data is valid utf8 encoding"""
-    num_bytes = 0
-
-    mask1 = 1 << 7
-    mask2 = 1 << 6
+    n_bytes = 0
 
     for n in data:
         mask = 1 << 7
-        if num_bytes == 0:
+        if not n_bytes:
             while mask & n:
-                num_bytes += 1
+                n_bytes += 1
                 mask = mask >> 1
 
-            if num_bytes == 0:
+            if n_bytes == 0:
                 continue
 
-            if num_bytes == 1 or num_bytes > 4:
+            if n_bytes == 1 or n_bytes > 4:
                 return False
 
         else:
-            if not (n & mask1 and not (num & mask2)):
+            if n >> 6 != 0b10:
                 return False
 
-        num_bytes -= 1
+        n_bytes = n_bytes - 1
 
-    return num_bytes == 0
+    return n_bytes == 0
