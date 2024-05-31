@@ -3,62 +3,51 @@
 import sys
 
 
+if len(sys.argv) != 2:
+    print('Usage: nqueens N')
+    exit(1)
+
+try:
+    n_qn = int(sys.argv[1])
+except ValueError:
+    print('N must be a number')
+    exit(1)
+
+if n_qn < 4:
+    print('N must be at least 4')
+    exit(1)
+
+
 class NQueen:
     """Class to solving N Queen Problem"""
 
-    def __init__(self, n):
-        """ Global Variables """
-        self.n = n
-        self.x = [0 for i in range(n + 1)]
-        self.res = []
+    def prob_nqueens(n):
+        """Function to handle the nqueens"""
+        if n == 0:
+            return [[]]
+        in_solution = prob_nqueens(n - 1)
+        return [sol + [(n, i + 1)]
+                for i in range(n_q)
+                for sol in in_solution
+                if ok_queen((n, i + 1), sol)]
 
-    def safe_place(self, k, i):
-        """Function to check if k Queen can be placed in a column (True)
-        or if the are attacking queens in row or diagonal (False)
-        """
+    def offence_queen(square, queen):
+        """Function to have the queen on attack mode"""
+        (row1, col1) = square
+        (row2, col2) = queen
+        return (row1 == row2) or (col1 == col2) or\
+            abs(row1 - row2) == abs(col1 - col2)
 
-        for j in range(1, k):
-            if self.x[j] == i or \
-               abs(self.x[j] - i) == abs(j - k):
-                return 0
-        return 1
-
-    def is_nQueen(self, k):
-        """Function to place every queen in the board
-        Args:
-        k: starting queen from which to evaluate
-        """
-        for i in range(1, self.n + 1):
-            if self.place(k, i):
-                self.x[k] = i
-                if k == self.n:
-                    solution = []
-                    for i in range(1, self.n + 1):
-                        solution.append([i - 1, self.x[i] - 1])
-                    self.res.append(solution)
-                else:
-                    self.is_nQueen(k + 1)
-        return self.res
+    def ok_queen(sq, queens):
+        """Function to check if queen is safe on the board"""
+        for queen in queens:
+            if offence_queen(square, queen):
+                return False
+        return True
 
 
-if len(sys.argv) != 2:
-    print("Usage: nqueens N")
-    sys.exit(1)
-
-N = sys.argv[1]
-
-try:
-    N = int(N)
-except ValueError:
-    print("N must be a number")
-    sys.exit(1)
-
-if N < 4:
-    print("N must be at least 4")
-    sys.exit(1)
-
-queen = NQueen(N)
-res = queen.nQueen(1)
-
-for i in res:
-    print(i)
+for answer in reversed(prob_nqueens(n_qn)):
+    outcome = []
+    for q in [list(q) for q in answer]:
+        outcome.append([i - 1 for i in q])
+    print(outcome)
