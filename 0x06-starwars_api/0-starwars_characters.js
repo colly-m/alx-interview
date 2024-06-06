@@ -10,7 +10,7 @@ const util = require('util');
 const request = util.promisify(require('request'));
 const filmID = process.argv[2];
 
-async function starwarsCharacters(filmId) {
+async function starwarsCharacters (filmId) {
   const endpoint = `https://swapi.dev/api/films/${filmId}`;
 
   try {
@@ -19,15 +19,14 @@ async function starwarsCharacters(filmId) {
     const characters = response.characters;
 
     for (const url of characters) {
-      let characterResponse = await request(url);
-      let character = JSON.parse(characterResponse.body);
+      const characterResponse = await request(url);
+      const character = JSON.parse(characterResponse.body);
       console.log(character.name);
     }
   } catch (error) {
     console.error(`Error fetching data: ${error}`);
   }
 }
-
 
 if (!filmID) {
   console.log('Usage: node 0-starwars_characters.js <Movie ID>');
