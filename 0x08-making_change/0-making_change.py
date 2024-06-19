@@ -7,11 +7,11 @@ def makeChange(coins, total):
     if total <= 0:
         return 0
 
-    dop = [float('inf')] * (total + 1)
-    dop[0] = 0
+    dp = [float('inf')] * (total + 1)
+    dp[0] = 0
 
     for c in coins:
         for r in range(c, total + 1):
-            dop[r] = min(dop[r], dop[r - c] + 1)
+            dp[r] = min(dp[r], dp[r - c] + 1)
 
-    return dop[total] if dop[total] != float('inf') else -1
+    return dp[total] if dp[total] != float('inf') else -1
