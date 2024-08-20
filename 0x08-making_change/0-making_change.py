@@ -4,17 +4,18 @@
 
 def makeChange(coins, total):
     """Function to check the needed coins"""
+    temp_val = 0
+    coins.sort(reverse=True)
+
     if total <= 0:
         return 0
 
-    dp = [float('inf')] * (total + 1)
-    dp[0] = 0
-
     for c in coins:
-        for r in range(c, total + 1):
-            dp[r] = min(dp[r], dp[r - c] + 1)
+        if total % c <= total:
+            temp_val += total // c
+            total = total % c
 
-    return dp[total] if dp[total] != float('inf') else -1
+    return temp_val if total == 0 else -1
 
 
 if __name__ == '__main__':
